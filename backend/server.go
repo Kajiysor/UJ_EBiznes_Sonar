@@ -21,27 +21,31 @@ func (s *Server) InitializeRoutings() {
 	categoryController := &controllers.CategoryController{DB: s.DB}
 	cartController := &controllers.CartController{DB: s.DB}
 
+	productsId := "/products/:id"
+	categoriesId := "/categories/:id"
+	cartProtuctId := "/cart/product/:productId"
+
 	s.Echo.GET("/products", productController.GetAllProducts)
-	s.Echo.GET("/products/:id", productController.GetProductById)
+	s.Echo.GET(productsId, productController.GetProductById)
 	s.Echo.GET("/products/category/:categoryId", productController.GetProductsByCategory)
 	s.Echo.GET("/products/name/:name", productController.GetProductsByName)
 	s.Echo.GET("/products/price/:price", productController.GetProductsByPrice)
 	s.Echo.POST("/products", productController.CreateProduct)
-	s.Echo.PUT("/products/:id", productController.UpdateProduct)
-	s.Echo.DELETE("/products/:id", productController.DeleteProduct)
+	s.Echo.PUT(productsId, productController.UpdateProduct)
+	s.Echo.DELETE(productsId, productController.DeleteProduct)
 
 	s.Echo.GET("/categories", categoryController.GetAllCategories)
-	s.Echo.GET("/categories/:id", categoryController.GetCategoryById)
+	s.Echo.GET(categoriesId, categoryController.GetCategoryById)
 	s.Echo.GET("/categories/name/:name", categoryController.GetCategoryByName)
 	s.Echo.POST("/categories", categoryController.CreateCategory)
-	s.Echo.PUT("/categories/:id", categoryController.UpdateCategory)
-	s.Echo.DELETE("/categories/:id", categoryController.DeleteCategory)
+	s.Echo.PUT(categoriesId, categoryController.UpdateCategory)
+	s.Echo.DELETE(categoriesId, categoryController.DeleteCategory)
 
 	s.Echo.GET("/cart", cartController.GetCart)
-	s.Echo.GET("/cart/product/:productId", cartController.GetCartByProductId)
+	s.Echo.GET(cartProtuctId, cartController.GetCartByProductId)
 	s.Echo.POST("/cart", cartController.AddToCart)
-	s.Echo.PUT("/cart/product/:productId", cartController.UpdateCart)
-	s.Echo.DELETE("/cart/product/:productId", cartController.DeleteFromCart)
+	s.Echo.PUT(cartProtuctId, cartController.UpdateCart)
+	s.Echo.DELETE(cartProtuctId, cartController.DeleteFromCart)
 	s.Echo.DELETE("/cart", cartController.DeleteCart)
 	s.Echo.GET("/cart/total", cartController.GetCartTotal)
 	s.Echo.POST("/cart/confirmation", cartController.Confirmation)
